@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -17,6 +18,8 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
+
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -26,7 +29,20 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->passwordReset()
+            ->registration()
             ->login()
+            ->plugin(
+                BreezyCore::make()
+                    ->avatarUploadComponent(fn($fileUpload) => $fileUpload)
+                    ->myProfile(
+                        shouldRegisterUserMenu: true, 
+                        shouldRegisterNavigation: false,
+                        navigationGroup: 'Settings',
+                        hasAvatars: true,
+                        slug: 'profile'
+                    )
+            )
             ->plugin(
                 \Hasnayeen\Themes\ThemesPlugin::make()
             )
@@ -36,7 +52,7 @@ class AdminPanelProvider extends PanelProvider
             ->tenantMiddleware([
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class
             ])
-            
+
             ->colors([
                 'primary' => Color::Amber,
             ])
