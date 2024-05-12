@@ -9,23 +9,26 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Storage;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\Textarea::make('picture')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('picture')->image()
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\Textarea::make('description')
@@ -37,6 +40,9 @@ class ProductResource extends Resource
                 Forms\Components\Select::make('category_id')
                     ->relationship('category', 'name')
                     ->required(),
+                Forms\Components\Select::make('provider_id')
+                    ->relationship('provider', 'name')
+                    ->required(),
             ]);
     }
 
@@ -44,20 +50,30 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                SpatieMediaLibraryImageColumn::make('picture')->checkFileExistence(true)->rounded(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('quantity')
                     ->numeric()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('category.name')
+                    ->numeric()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('provider.name')
                     ->numeric()
                     ->sortable(),
             ])

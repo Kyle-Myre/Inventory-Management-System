@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Product extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
+class Product extends Model implements HasMedia
 {
-    use HasFactory;
-    protected $fillable = ['category_id' , 'provider_id' , 'name' , 'description' , 'quantity'];
+    use HasFactory , InteractsWithMedia;
+    protected $fillable = ['category_id' , 'provider_id' , 'picture' , 'name' , 'description' , 'quantity'];
 
     final public function category() : BelongsTo  {
         return $this->belongsTo(Category::class);

@@ -13,8 +13,8 @@ class Transaction extends Model
     use HasFactory;
     protected $fillable = ['product_id' , 'quantity' , 'type'];
 
-    final public function product() : HasOne  {
-        return $this->hasOne(Product::class);
+    final public function product() : HasMany  {
+        return $this->hasMany(Product::class);
     }
     final public function order() : BelongsToMany {
         return $this->belongsToMany(Order::class);

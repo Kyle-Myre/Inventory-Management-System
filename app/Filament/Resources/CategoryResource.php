@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
 
 class CategoryResource extends Resource
 {
@@ -44,7 +46,9 @@ class CategoryResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                TextFilter::make('name'),
+                DateFilter::make('updated_at'),
+                DateFilter::make('created_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
