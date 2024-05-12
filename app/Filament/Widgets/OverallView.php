@@ -21,50 +21,42 @@ class OverallView extends ChartWidget
     {
         $customers = Trend::model(Customer::class)
             ->between(
-                start: now()->startOfMonth(),
-                end: now()->endOfMonth(),
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
             )
-            ->perDay()
+            ->perMonth()
             ->count();
 
         $order = Trend::model(Order::class)
             ->between(
-                start: now()->startOfMonth(),
-                end: now()->endOfMonth(),
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
             )
-            ->perDay()
+            ->perMonth()
             ->count();
 
         $category = Trend::model(Category::class)
             ->between(
-                start: now()->startOfMonth(),
-                end: now()->endOfMonth(),
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
             )
-            ->perDay()
-            ->count();
-
-        $transaction = Trend::model(Transaction::class)
-            ->between(
-                start: now()->startOfMonth(),
-                end: now()->endOfMonth(),
-            )
-            ->perDay()
+            ->perMonth()
             ->count();
 
         $provider = Trend::model(Provider::class)
             ->between(
-                start: now()->startOfMonth(),
-                end: now()->endOfMonth(),
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
             )
-            ->perDay()
+            ->perMonth()
             ->count();
 
         $product = Trend::model(Product::class)
             ->between(
-                start: now()->startOfMonth(),
-                end: now()->endOfMonth(),
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
             )
-            ->perDay()
+            ->perMonth()
             ->count();
 
         return [
@@ -80,10 +72,6 @@ class OverallView extends ChartWidget
                 [
                     'label' => 'Products',
                     'data' => $product->map(fn(TrendValue $value) => $value->aggregate),
-                ],
-                [
-                    'label' => 'Transactions',
-                    'data' => $transaction->map(fn(TrendValue $value) => $value->aggregate),
                 ],
                 [
                     'label' => 'Categories',

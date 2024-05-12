@@ -14,12 +14,14 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Storage;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\DateFilter;
+use Webbingbrasil\FilamentAdvancedFilter\Filters\TextFilter;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
     public static function form(Form $form): Form
     {
@@ -70,15 +72,18 @@ class ProductResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('category.name')
-                    ->numeric()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('provider.name')
-                    ->numeric()
                     ->sortable(),
             ])
             ->filters([
-                //
+                TextFilter::make('quantity'),
+                TextFilter::make('category.name'),
+                TextFilter::make('provider.name'),
+                TextFilter::make('name'),
+                DateFilter::make('created_at'),
+                DateFilter::make('updated_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
