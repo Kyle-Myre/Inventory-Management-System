@@ -27,14 +27,15 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
-            ->id('admin')
-            ->path('admin')
+            ->id('app')
+            ->path('app')
             ->passwordReset()
             ->registration()
             ->login()
             ->plugin(
                 BreezyCore::make()
-                    ->avatarUploadComponent(fn($fileUpload) => $fileUpload)
+                    ->enableTwoFactorAuthentication()
+                    ->avatarUploadComponent(fn ($fileUpload) => $fileUpload) 
                     ->myProfile(
                         shouldRegisterUserMenu: true, 
                         shouldRegisterNavigation: false,
@@ -42,6 +43,7 @@ class AdminPanelProvider extends PanelProvider
                         hasAvatars: true,
                         slug: 'profile'
                     )
+                    
             )
             ->plugin(
                 \Hasnayeen\Themes\ThemesPlugin::make()

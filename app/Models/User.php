@@ -9,32 +9,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {
-    use HasFactory, Notifiable;
-
+    use HasFactory, Notifiable , TwoFactorAuthenticatable;
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-
     public function canAccessPanel(\Filament\Panel $panel): bool {
-        return true;
-    }
-
+        return $this->role === "ADMIN" || $this->role === "USER";
+    }    
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->avatar_url ? Storage::url("$this->avatar_url") : null;
+        return $this->avatar_url ? Storage::url($this->avatar_url) : null;
     }
-
     protected $fillable = [
-        'name',
-        'email',
-        'avatar_url',
-        'password',
-        'role'
+        'name','email','avatar_url',
+        'password','role'
     ];
 
     /**
@@ -46,12 +40,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'password',
         'remember_token',
     ];
-
-    protected const roles = [
-        'admin' => 'ADMIN',
-        'user' => 'USER'
-    ];
-
+    protected const roles = ['admin' => 'ADMIN','user' => 'USER'];
     /**
      * Get the attributes that should be cast.
      *
@@ -71,5 +60,4 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     final public function isUser() : bool {
         return $this->role == 'USER';
     }
-   
 }
