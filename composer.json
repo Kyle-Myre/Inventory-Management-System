@@ -17,6 +17,7 @@
         "jeffgreco13/filament-breezy": "^2.4",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "pxlrbt/filament-excel": "^2.3",
         "thedoctor0/laravel-factory-generator": "^1.4",
         "webbingbrasil/filament-advancedfilter": "^3.0"
     },

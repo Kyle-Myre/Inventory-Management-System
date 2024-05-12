@@ -35,23 +35,20 @@ class AdminPanelProvider extends PanelProvider
             ->plugin(
                 BreezyCore::make()
                     ->enableTwoFactorAuthentication()
-                    ->avatarUploadComponent(fn ($fileUpload) => $fileUpload) 
+                    ->avatarUploadComponent(fn($fileUpload) => $fileUpload)
                     ->myProfile(
-                        shouldRegisterUserMenu: true, 
+                        shouldRegisterUserMenu: true,
                         shouldRegisterNavigation: false,
                         navigationGroup: 'Settings',
                         hasAvatars: true,
                         slug: 'profile'
                     )
-                    
+
             )
             ->plugin(
                 \Hasnayeen\Themes\ThemesPlugin::make()
             )
             ->middleware([
-                \Hasnayeen\Themes\Http\Middleware\SetTheme::class
-            ])
-            ->tenantMiddleware([
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class
             ])
 
@@ -64,7 +61,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            
+
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
