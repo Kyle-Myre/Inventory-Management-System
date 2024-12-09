@@ -27,7 +27,7 @@ This app is a Filament-based admin panel for managing various resources such as 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/{your-username}/{repo-name}.git
+   git clone https://github.com/Kyle-Myre/Inventory-Management-System.git
    cd {repo-name}
    ```
 
